@@ -1,71 +1,131 @@
 #import "@preview/cetz:0.3.2"
 
-= Mohr-Mascheroni szerkesztések <mohr-mascheroni-szerkesztések>
-=== Az Euklideszi szerkesztések alaplépései: <az-euklideszi-szerkesztések-alaplépései>
+#set page(margin: (
+  top: 2cm,
+  bottom: 1.5cm,
+  x: 1.5cm,
+))
+
+== Mohr-Mascheroni szerkesztések <mohr-mascheroni-szerkesztések>
+
 Euklideszi szerkesztésnek hívunk mindent, amit gimiben tanultatok szerkesztés néven. A használható lépések:
 
-#align(center, image("alaplepesek.png", width: 80%)) 
+//#align(center, image("./media/alaplepesek.png", width: 80%)) 
+
+#cetz.canvas({
+  import cetz.draw: *
+  
+  set-style(stroke-width: 1pt)
+
+  //line through two points
+  //points
+  circle((-1.5, 2.6), radius: 0.07, name: "A", fill: black)
+  circle((-.5, 2.8), radius: 0.07, name: "B", fill: black)
+
+  //line through them
+  line((-2,2.5), (0.5, 3), stroke: (dash: "dashed"), name: "one")
+  content((-2.,3.8),"one", $ 1. $)
+
+  //separator
+  line((0.7, 4), (0.7, 2))
+
+  //circlre with radius
+  circle((2.5, 3), radius: 0.07, name: "P", fill: black)
+  circle((2.5, 3), radius: 1, name: "C", stroke: (dash: "dashed"))
+  //point on the circle, not parallel to x axis
+  circle((3.4, 3.4), radius: 0.07, name: "Q", fill: black)
+  line((2.5, 3), (3.4, 3.4))
+  content((-0.2,3.8), "C", $ 2. $)
+
+  //separator
+  line((3.8, 4), (3.8, 2))
+  //line intersection
+  line((4.5, 3.5), (7, 2.2))
+  line((4.5, 2.3), (7, 3.2))
+  circle((5.8637, 2.79), radius: 0.07, name: "R", fill: black)
+  content((2.5,3.8), "R", $ 3. $)
+
+  //separator
+  line((7.2, 4), (7.2, 2))
+  //circle line intersection
+  circle((9.2, 3), radius: 1, name: "D")
+  line((7.9, 3.7), (10.5, 2.7))
+  circle((8.35, 3.5269), radius: 0.07, name: "S", fill: black)
+  content((6,3.8), "D", $ 4. $)
+
+  //separator
+  line((10.7, 4), (10.7, 2))
+  //circle circle intersection
+  circle((12.5, 3), radius: 1, name: "E")
+  circle((13.5, 3), radius: 1, name: "F")
+  circle((13, 3.866), radius: 0.07, name: "T", fill: black)
+  content((9.7,3.8), "E", $ 5. $)
+  
+})
 
 + A vonalzót két adott ponton átmenő egyenes megrajzolására használhatjuk.
 + A körzővel adott pont körül adott hosszú sugárral kört rajzolhatunk.
 + Két egyenes metszéspontját megjelölhetjük.
 + Egyenes és kör metszéspontját megjelölhetjük.
 + Két kör metszéspontját megjelölhetjük.
-+ #strike[Két pont távolságát körzőnyílásba vehetjük.] (távolságok lemérésére vonalzót ugye nem használhatunk, tehát van ennek helye, mint alaplépés, de nem feltétlenül fontos, hogy reprodukálni tudjuk)
++ Két pont távolságát körzőnyílásba vehetjük.
 
-Amit ezeknek a véges számú ismétlésével meg lehet szerkeszteni az pacek. Ezekből épül fel akár egy merőleges megszerkesztése is, de az önmagában nem alapművelet. Ugyanakkor nem minden megszerkeszthető (Pl.: szabályos hétszög, szögharmadolás) 
+Amit ezeknek a véges számú ismétlésével meg lehet szerkeszteni az pacek. Ezekből épül fel akár egy merőleges megszerkesztése is, de az önmagában nem alapművelet. Ugyanakkor nem minden megszerkeszthető (Pl.: szabályos hétszög, szögharmadolás).
+
+#emph[Egy bemelegítő szerkesztés]: derékszögű háromszög melynek tudjuk két befogójának hosszát. 
 
 #block(
-  fill: luma(240), // Light gray background
   inset: 8pt,     // Padding inside the block
-  stroke: (left: 2pt + blue), // Left border
-  radius: 4pt,     // Rounded corners
+  stroke: (left: 2pt), // Left border
 )[
   #strong[Kitektintés] 
 
-Ezeknek a feladatoknak a megszerkeszthetetlenségét algebrailag lehet bizonyítani a #link(
-  "https://en.wikipedia.org/wiki/Constructible_number",
-)[megszerkeszthető számok] segítségével. Ezek olyan számok, amik egész számokbóé az összeadás, kivonás, szorzás, osztás, gyökvonás műveletek segítségével előállíthatóak. 
+  Ezeknek a feladatoknak a megszerkeszthetetlenségét algebrailag lehet bizonyítani a #link(
+    "https://en.wikipedia.org/wiki/Constructible_number",
+  )[megszerkeszthető számok] segítségével. Ezek olyan számok, amik egész számokból az összeadás, kivonás, szorzás, osztás, gyökvonás műveletek segítségével előállíthatóak. 
 
-Ezek a számok pl távolságok vagy arányok, amiket meg lehet szerkeszteni (szintén bizonyítható, hogy ez oda-vissza működik), és a fenti feladatok megoldásához olyan számot kéne előállítani, ami nem esik ebbe a számcsoportba.
-
-Egy bemelegítő szerkesztés: derékszögű háromszög melynek tudjuk két oldalának hosszát. (Nagyobbaknál ugorhatjuk, ha nem gyökerek/fáradtak) \* Vegyük észre, hogy elég nekünk ha csak magukat a pontokat szerkesztjük meg, az oldalak technikailag csak esztétikai célt szolgálnak!
+  Ezek a számok pl. távolságok vagy arányok, amiket meg lehet szerkeszteni (szintén bizonyítható, hogy ez oda-vissza működik), és a fenti feladatok megoldásához olyan számot kéne előállítani, ami nem esik ebbe a számhalmazba.
 ]
 
-#pagebreak()
+
 
 === Körző nélkül <körző-nélkül>
-A hat alaplépés közül néhány triviális az egyik eszköz nélkül is, néhány viszont konkrétan lehetetlennek tűnik.
+A hat alaplépés közül néhány triviális vonalzó nélkül is, a maradék viszont konkrétan lehetetlennek tűnik.
 
-#figure(align(left)[#table(
-    columns: (100%), align: (auto,), table.header([Csak körzővel nehéz]), table.hline(), 
-    [1. A vonalzót két adott ponton átmenő egyenes megrajzolására használhatjuk.#footnote[ezeket szerencsére nem kell majd implementálnunk, hiszen maga az egyenes vagy kör megrajzolása csak esztétikai célt szolgál, ha a többi lépést meg tudjuk oldani más módon]], 
-    [3. Két egyenes metszéspontját megjelölhetjük.], 
-    [4. Egyenes és kör metszéspontját megjelölhetjük.], 
-  )], kind: table,
-)
+#block(
+  //fill: luma(240), // Light gray background
+  inset: 8pt,     // Padding inside the block
+  //stroke: (left: 2pt + blue), // Left border
+  radius: 4pt,     // Rounded corners
+)[
+    - A vonalzót két adott ponton átmenő egyenes megrajzolására használhatjuk.
+    - Két egyenes metszéspontját megjelölhetjük.
+    - Egyenes és kör metszéspontját megjelölhetjük.
+]
 
 Ahhoz, hogy ekvivalens legyen a csak körzős szerkesztés az euklidészivel, ahhoz át kell hidalni a hiányzó lépéseket. Viszont #strong[csak a pontokat kell tudnunk megszerkeszteni];, maga a kör, vagy az egyenes megjelenése nem feltétlen szükséges.
 
 Először nézzük meg, hogy mi az, ami egyáltalán eszünkbe jut, hogy az egyik eszköz nélkül meg tudjuk szerkeszteni, #emph[egyelőre bármilyen mágia nélkül];.
 
-- tükrözés (ha meg van adva a tükör-tengely)
-- szabályos háromszög/hatszög
-- szakasz duplázás
+#block(inset: 8pt)[
+  - tükrözés (ha meg van adva a tükör-tengely)
+  - szabályos háromszög/hatszög
+  - szakasz duplázás
+]
 
-Folytassuk a dolgokat csak körzővel, az úgyis jobban ment. Ahhoz, hogy pótolni tudjuk a hiányzó lépéseket, ahhoz létre kell hoznunk egy új geometriai transzformációt, a körre tükrözést. Az lesz az elképzelés, hogy #emph[valahogy] körökké alakítjuk, az "egyeneseinket", így tudjuk őket kezelni, és ha megvagyunk, visszaalakíthatjuk őket.
+Körzővel köröket tudunk szerkeszteni és elmetszeni, tehát felmerül az ötlet: #strong[#emph[\*valahogy\*] alakítsuk át az egyeneseinket körökké], és akkor a hiányzó lépéseket meg tudjuk csinálni. Ehhez szükségünk lenne egy új, #strong[nem egyenestartó] geometriai transzformációra.
+
+#pagebreak()
 
 === Geometriai transzformációk <geometriai-transzformációk>
-Na de mi az a geometriai transzormáció? Technikailag egy 4D függvény, ami bijektív, tehát van inverze, és lefedi mindkét halmazt. Ugye síkbeli függvényeknél a valós számokhoz rendelünk hozzá másik valós számokat, itt viszont számpárokhoz másik számpárokat, tehát R-\>R helyett X2-\>X2. Bijekció az egy specifikus egy-az-egyhez hozzárendelés, az egyértelmű függvény.
+Vannak a függvények, pl.: $f(x) = x^2$, ahol van egy alaphalmazunk ($RR$), illetve egy képhalmazunk (szintén $RR$), és maga a függvény azt a szabályt határozza meg, ami alapján ezek elemeit hozzárendeljük egymáshoz. Geometriai transzformációknál ugyanez a helyzet, csak itt az alaphalmaz és a képhalmaz is a sík pontjai. Egyértelmű függvénynek hívtuk azokat, ahol az alaphalmaz minden egyes eleméhez legfeljebb egy elemet tudunk hozzárendelni a képhalmazból, és ezt a tulajdonságot a geometriai transzformációknál is szeretnénk megőrizni.
 
 
 
-#align(center,image("Injective-Function-5.png", width: 80%))
+//#align(center,image("./media/Injective-Function-5.png", width: 80%))
 
-#quote(
-  block: true,
-)[
-  #strong[Opcionális] Próbáljunk meg hozzárendelést találni az alábbi objektumok között! 
+#quote(block: true)[
+  #strong[Opcionális] Próbáljunk meg egyértelmű hozzárendelést találni az alábbi ponthalmazok között! 
   - szakasz és hosszabb szakasz 
   - szakasz és körív 
   - szakasz és végpontok nélküli szakasz 
@@ -74,12 +134,62 @@ Na de mi az a geometriai transzormáció? Technikailag egy 4D függvény, ami bi
   - szakasz és sík
 ]
 
-Az általunk ismert geometriai transzformációk, általában mind szögtartóak, egyenestartóak és távolságtartóak (kivéve a hasonlóság), szóval nem csoda, ha nem tudjuk emlékezetből sorolni a tulajdonságaikat - forgatás - eltolás - pontra/egyenesre tükrözés - hasonlóság
+Az általunk ismert geometriai transzformációk, általában mind szögtartóak, egyenestartóak és távolságtartóak (kivéve a hasonlóság), szóval nem csoda, ha nem tudjuk emlékezetből sorolni a tulajdonságaikat 
+#block(inset: 8pt)[
+- forgatás 
+- eltolás 
+- pontra/egyenesre tükrözés 
+- hasonlóság
+]
 
 == Inverzió <inverzió>
-Nekünk olyan transzformáció kell, ami #strong[nem] egyenestartó! Hogy néz ki egy ilyen?… Egy P pont O középpontú, r sugarú körre vett inverz képét úgy kapjuk meg, hogy $O P times O P' = r^2$. Most még egyelőre csak higyjük el, hogy ez nem lesz egyenestartó és kezdjünk el inkább azon gondolkodni, hogy hogyan szerkesszük meg.
+Nekünk olyan transzformáció kell, ami nem csak hogy #strong[nem] egyenestartó, de az egyenesek képe kör! Hol tapasztalunk hasonló jelenséget a valóságban? (Görbe tükröknél). Lehetséges körre tükrözni? Ugyanúgy ahogy a tengelyes tükrözésnél létezik egy tükör tengely, a körre tükrözésnél, vagy más néven inverziónál van egy alapkör.
 
-//#align(center, image("./inversion_def.png", width: 80%))
+#cetz.canvas({
+  import cetz.draw: *
+  
+  set-style(stroke-width: 1pt)
+  line((0, -1), (0, 1), name: "line")
+  circle((-1, 0.5), radius: 0.05, fill: black, name: "A")
+  circle((1, 0.5), radius: 0.05, fill: black, name: "A'")
+  circle((0, 0.5), radius: 0.05, fill: black, name: "T")
+  content("A", $ A $, anchor: "north-east", padding: .1)
+  content("A'", $ A' $, anchor: "north-west", padding: .1)
+  content("T", $ T $, anchor: "north-east", padding: .1)
+  line((-1, 0.5), (1, 0.5), stroke: (dash: "dashed"))
+  //explanation
+  content((0, -2), $A T  = T A'$ + " és az egyenes által meghatározott\nfélsíkok pontjai helyet cserélnek.", anchor: "north", padding: .1)
+  //separator
+  line((4, -3), (4, 2), stroke: (dash: "dashed"))
+
+  //circle mirror
+  circle((7, 0), radius: 1.3, name: "k")
+  circle((7, 0), radius: 0.05, fill: black, name: "B")
+  circle((7.5, 0), radius: 0.05, fill: black, name: "B'")
+  circle((10.38, 0), radius: 0.05, fill: black, name: "C")
+  content("B", $ O $, anchor: "north-east", padding: .1)
+  content("B'", $ B' $, anchor: "north-west", padding: .1)
+  content("C", $ B $, anchor: "north-east", padding: .1)
+  line((7, 0), (10.38, 0), stroke: (dash: "dashed"))
+  //explanation
+  content((8.5, -2), $O P times O P' = r^2$ + " és a körön belüli, illetve\n az azon kívüli pontok helyet cserélnek.", anchor: "north", padding: .1)
+})
+
+Oké, mostmár csak meg kéne szerkeszteni. Kezdetben először nyugodtan kereshetünk olyan megoldást, amihez szükséges a vonalzó. A definíció átrendezéséből adódik, hogy:
+
+$
+O P times O P' = r^2 \/ r; O P'
+$
+
+
+$
+frac(O P, r) = frac(r, O P')
+$
+
+Tehát van itt nekünk egy arányosságunk, amit nagyon szépen fel tudunk használni például hasonló háromszögek segítségével. Azt is látjuk, hogy a két leendő hasonló háromszögünk osztozik egy $r$ oldalon, ami az alapkör sugara lesz.
+//#align(center, image("./media/inversion_def.png", width: 80%))
+
+Ha például $O P$ átmérőjű kört húzúnk, akkor a két kör metszetéből (nevezzük el $N$-nek) a Thálesz-tétel miatt derékszög alatt látszik az átmérő. Ha tehát merőlegest húzúnk az $O P$ szakaszra az $N$ pontban, akkor ki tudunk erőszakolni egy másik derékszögű háromszöget, aminek az egyik befogója az $r$ oldal lesz. Rövid szögszámolás alapján ki is jön, hogy ezek a háromszögek tényleg hasonlóak tehát az inverz pontot megkaptuk az $O P N triangle.stroked.t$ áttfogójához tartozó magasságának talppontjaként.
 
 #cetz.canvas({
   import cetz.draw: *
@@ -112,7 +222,11 @@ Nekünk olyan transzformáció kell, ami #strong[nem] egyenestartó! Hogy néz k
   
 })
 
-Ha kicsit átrendezzük a definíció egyenletét, akkor azt kapjuk, hogy $frac(O P, r)$ = $frac(r, O P')$ , amit önmagában még valószínűleg nem láttál, mint képlet, de az összetört lelkekben felmerülhet a gyanú, hogy ahol ilyet látok, ott hasonló háromszögekról van szó. Jelöljük be a sugarat, nevezzük el N-nek az új pontot, és meg is vannak a háromszögeink. $O P' N triangle.stroked.t$ \~ $O N P triangle.stroked.t$ \~ $N P' P triangle.stroked.t$ , ahol az $O N$ oldal az $r .$ Itt technikailag nincs is szükségünk a harmadik hasonló háromszögre, de nem baj. Szerkesszük meg az inverziót! (Tipp: derékszögű háromszög -\> Thalesz-tétel) Na de ácsi, mi csak körzővel akarunk szerkeszteni, mi meg itt merőlegest állítotttunk meg mindent! Próbáljuk meg megszerkeszteni ezúttal csak körzővel
+Ehhez azonban mindenféleképpen szükségünk van körzőre, hogy megszerkesszük. A szögszámolásból azonban kijön, hogy majdnem mindegy, hogy az alapkör körívén melyik pontot választjuk meg a két háromszög harmadik csúcsaként, azok mindenképp hasonlóak lesznek az inverzió definíciója miatt.
+
+Válasszunk tehát olyan háromszögeket amelyeket könnyen meg tudunk szerkeszteni csak körzővel is. Példáúl egy egyenlő szárú háromszög tökéletesen megfelel erre a célra.
+
+
 
 #cetz.canvas({
   import cetz.draw: *
@@ -155,10 +269,13 @@ Ha kicsit átrendezzük a definíció egyenletét, akkor azt kapjuk, hogy $frac(
 #quote(
   block: true,
 )[
-  Meggondolandó az az eset, mikor $𝑂 𝑃 lt.eq 𝑟^2$, hisz ekkor 𝑃-ből 𝑂𝑃 távolsággal kört rajzolva csak egy metszéspontjuk lesz, vagy nem fogják metszeni egymást. Az ilyen esetek megoldásának kulcsa az, hogy körző segítségével az 𝑂𝑃 távolságot a 𝑃 ponton túl annyiszor kétszerezzük meg, hogy nagyobb legyen, mint $𝑟^2$, s így adódik már két metszéspont, és a fent leírtakat tudjuk alkalmazni.
+  Meggondolandó az az eset, mikor $𝑂 𝑃 lt.eq 𝑟/2$, hisz ekkor 𝑃-ből 𝑂𝑃 távolsággal kört rajzolva csak egy metszéspontjuk lesz, vagy nem fogják metszeni egymást. Az ilyen esetek megoldásának kulcsa az, hogy körző segítségével az 𝑂𝑃 távolságot a 𝑃 ponton túl annyiszor kétszerezzük meg, hogy nagyobb legyen, mint $r/2$, s így adódik már két metszéspont, és a fent leírtakat tudjuk alkalmazni.
 ]
 
-Egy kis összefoglalás a triviális észrevételekről: - az inverzió kétszer alkalmazva identitás, visszakapjuk az eredeti alakzatokat - az alapkörön belüli pontokat, az alapkörön kívülre képzi és vica versa - az alapkör képe önmaga - az origón átmenő egyenes képe önmaga - problémás az alapkör középpontjának inverze. \>Ezt vagy ignoráljuk, és elfogadjuk, hogy az inverziót nem definiáljuk erre pontra és egy részleges függvénnyel dolgozunk tovább (mint az $f (x) = 1 / x$), vagy létrehozzzuk A Végtelenben Lévő Pontot, és ez a két pont egymás inverze lesz. Elképzelésére segítségül hívhatjuk a Riemann-gömböt, és definiálása hasznos lesz a kögyeneseknél. A választás nem befolyásolja a szerkesztéseink lehetségességét.
+Egy kis összefoglalás a triviális észrevételekről: 
+- az inverzió kétszer alkalmazva identitás, visszakapjuk az eredeti alakzatokat 
+- az alapkörön belüli pontokat, az alapkörön kívülre képzi és vica versa 
+- problémás az alapkör középpontjának inverze.#footnote("Ezt vagy ignoráljuk, és elfogadjuk, hogy az inverziót nem definiáljuk erre pontra és egy részleges függvénnyel dolgozunk tovább (mint az" + $f (x) = 1 / x$ + ") , vagy létrehozzzuk A Végtelenben Lévő Pontot, és ez a két pont egymás inverze lesz.")
 
 #quote(
   block: true,
@@ -169,10 +286,15 @@ Egy kis összefoglalás a triviális észrevételekről: - az inverzió kétszer
   Ezzel pontosan három pont definiál minden kögyenest: a köröket is három, az egyeneseket pedig két pont illetve a VLP.
 ]
 
+Pontok inverz képét már meg tudjuk határozni, sőt szerkeszteni is. Ahogy a tengelyes tükrözésnél is, itt is vannak fix pontok és invariáns alakzatok:
+
+- fix pontok: a kör köríve, tehát ennek képe önmaga lesz
+- invariáns alakzatok: az alapkör középpontján áthaladó egyenes. Ennek is önmaga lesz a képe.
+
 === Egyenes inverze <egyenes-inverze>
 Ahhoz, hogy meg tudjuk szerkeszteni egy egyenes inverzét, ahhoz először is tudnunk kell, hogy mit akarunk kapni. Mi lesz egy egyenes inverz képe? Ahogy azt már láttuk, a póluson átmenő egyenes képe önmaga. De én azt ígértem nektek, hogy az inverzió nem lesz egyenestartó, és ez így is van. nézzünk meg egy másik, a póluson át-nem-menő egyenest is. Invertáljuk néhány pontját, és nézzük meg mit kaptunk. Ez bizony egy kör. Bizonyítsuk be, hogy tényleg kört kapunk.
 
-#box(image("./Line_inversion_proof.png"))
+#box(image("./media/Line_inversion_proof.png"))
 
 Invertáljunk két pontot: egy tetszőlegesen választott $P$ pontot, illetve $T$-t, ami az $O$-ból állított merőleges talppontja az $e$ egyenesen. Az inverzió tulajdonságaiból adódik, hogy $O P' T' triangle.stroked.t tilde.op O T P triangle.stroked.t$, és mivel $O T P angle$ derékszög, ezért $O P' T' angle$ is derékszög bármely szabadon választott $P$ pontra.
 
@@ -199,7 +321,7 @@ Robogjunk tovább a körökre. Kezdjük a legtriviálisabbal: az alapkör képe 
 
 Mielőtt azonban megszerkesztenénk, tegyünk egy nagyon rövid kitérőt, amit meg fogtok köszönni. Szerkesszük meg egy kör középpontját három adott pontja alapján! Ha ezt meg tudjuk csinálni, akkor nem kell semmiféle spéci szerkesztési technika, egyszerűen csak invertálunk három pontot, és mivel tudjuk, hogy ezek egy körön lesznek, ezért csak meg kell keresnünk a középpontot. Szerencsére ez sem lesz nehéz.
 
-#box(image("./circle_inversion_construction.png"))
+#box(image("./media/circle_inversion_construction.png"))
 
 Szépen kiválasztjuk a három megadott pontból találomra az egyiket, tetszőleges sugárral kört rajzolunk, és ez lesz az inverziónk alapköre. Így az eredeti körünk az egy póluson átmenő kör lesz, aminek tudjuk, hogy a képe egyenes. Invertáljuk a maradék két pontunkat, ezzel meg is kaptuk az egyenesünket. Innen az egyenes képét megadó algoritmust követjük, akkor visszakapjunk a körünket, de közben megkaptuk a középpontját is.
 
@@ -210,11 +332,11 @@ Most, hogy mindennek meg tudjuk szerkeszteni az inverz képét (és azokat csak 
 
 Na lássuk a medvét! Adott két pontpárunk, amik meghatároznak egy-egy, egymással nem párhuzamos egyenest, szerkesszük meg a metszéspontot. Nem lesz nehéz dolgunk. Invertáljuk az egyeneseinket, és kapni fogunk két kört amelyek két pontban metszik egymást: az origóban($P (oo)$ miatt), illetve ott, ahol az általunk keresett pont inverze található. Invertáljuk, és meg is vagyunk.
 
-#box(image("./line_line_intersect.png"))
+#box(image("./media/line_line_intersect.png"))
 
 Nem lesz ez nagyon máshogy a kör-egyenes esetben sem. Invertáljuk az alakzatokat, megkapjuk a metszéspont(ok) képe(i)-t, ez(ek)-nek az inverz képe pedig az eredeti metszéspont(ok) lesz(nek). Pontosan annyi metszéspontja lesz a két képkörnek, ahány az eredeti alakzatoknak volt,
 
-#box(image("./circle_line_intersection.png"))
+#box(image("./media/circle_line_intersection.png"))
 
 Ezzel be is bizonyítottuk a Mohr-Mascheroni tételt, és szabadon otthon hagyhatjuk mostantól a körzőnket. Juhuuu! Az egyetlen probléma, hogy inkább körzőből szokott hiány lenni, mintsem fordítva…
 
