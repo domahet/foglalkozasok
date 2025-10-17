@@ -6,12 +6,13 @@
   x: 1.5cm,
 ))
 
-== Ismétlés <ismétlés>
+== Segédlet <ismétlés>
 === Thálesz-tétel
 A Thálesz-tétel kimondja, hogy ha egy $C$ pont a kör ívén van (de nem az átmérőn), akkor az átmérő $C$-ből derékszög alatt látszik. A Thálesz-tétel megfordítása pedig azt mondja ki, hogy ha egy háromszög derékszögű, akkor három csúcsa olyan körön van, melynek átmérője az átfogó.
 
 #cetz.canvas({
   import cetz.draw: *
+  import cetz.angle: *
   
   set-style(stroke-width: 1pt)
 
@@ -24,12 +25,11 @@ A Thálesz-tétel kimondja, hogy ha egy $C$ pont a kör ívén van (de nem az á
   content("A", $ A $, anchor: "north-west", padding: .1)
   circle((1.5, 2.598), radius: 0.07, fill: black, name: "C")
   content("C", $ C $, anchor: "south-west", padding: .1)
-  line("A", "B")
-  line("A", "C")
-  line("B", "C")
+  line("A", "B", name: "c")
+  line("A", "C", name: "b")
+  line("B", "C", name: "a")
   //right angle mark
-  arc((1.14, 2.4), start: 210deg, delta: 90deg, radius: 0.4,
-    mode: "PIE",fill: color.mix((gray, 80%), white))
+  right-angle("b.end", "b.start", "a.start", radius: 15%)
 })
 
 === Hasonló háromszögek
@@ -47,6 +47,7 @@ Ezek az állítások egymásból következnek, tehát minden hasonló háromszö
 
 #cetz.canvas({
   import cetz.draw: *
+  import cetz.angle: *
   
   set-style(stroke-width: 1pt)
   //right triangle
@@ -56,21 +57,26 @@ Ezek az állítások egymásból következnek, tehát minden hasonló háromszö
   content("A", $ A $, anchor: "north-east", padding: .1)
   content("B", $ B $, anchor: "north-west", padding: .1)
   content("C", $ C $, anchor: "south-east", padding: .1)
-  line("A", "B")
-  line("A", "C")
-  line("B", "C")
+  line("A", "B", name: "c")
+  line("A", "C", name: "b")
+  line("B", "C", name: "a")
   //right angle mark
-  arc((0.4, 0), start: 0deg, delta: 90deg, radius: 0.4,
-    mode: "PIE",fill: color.mix((gray, 80%), white))
+  right-angle("b.start", "b.end", "a.start", radius: 8%)
 
   //height of the a side from A
   
   
   //right angle mark
-  arc((3.63, 3.18), start: 125deg, delta: 180deg, radius: 0.4,
-    mode: "PIE",fill: color.mix((gray, 80%), white))
-    circle((3.84, 2.88), radius: 0.07, fill: black, name: "D")
+  circle((3.84, 2.88), radius: 0.07, fill: black, name: "D")
+  content("D", $ D $, anchor: "south-west", padding: .1)
   line((0,0), "D", stroke: (dash: "dashed"))
+  right-angle("D", "A", "B", radius: 15%)
+  right-angle("D", "A", "C", radius: 13%)
+
+  angle("C", "A", "B", radius: 20%, name: "alpha", label: $ alpha $, label-radius: 75%)
+  angle("B", "C", "A", radius: 20%, name: "beta", label: $ beta $, label-radius: 70%)
+  angle("A", "B", "D", radius: 25%, name: "alpha'", label: $ alpha $, label-radius: 75%)
+  angle("A", "D", "C", radius: 30%, name: "beta'", label: $ beta $, label-radius: 75%)
 
   //similar triangle
   circle((8, 0), radius: 0.07, fill: black, name: "A'")
@@ -79,17 +85,18 @@ Ezek az állítások egymásból következnek, tehát minden hasonló háromszö
   content("A'", $ A' $, anchor: "north-east", padding: .1)
   content("B'", $ B' $, anchor: "north-west", padding: .1)
   content("C'", $ C' $, anchor: "south-east", padding: .1)
-  line("A'", "B'")
-  line("A'", "C'")
-  line("B'", "C'")
+  line("A'", "B'", name: "c'")
+  line("A'", "C'", name: "b'")
+  line("B'", "C'", name: "a'")
   //right angle mark
-  arc((8.4, 0), start: 0deg, delta: 90deg, radius: 0.4,
-    mode: "PIE",fill: color.mix((gray, 80%), white))
+  right-angle("A'", "B'", "C'", radius: 15%)
+  angle("C'", "A'", "B'", radius: 25%, label: $ beta $, label-radius: 75%)
+  angle("B'", "C'", "A'", radius: 25%, label: $ alpha $, label-radius: 75%)
 
   
 })
 
-Egy derékszögű háromszög átfogóhoz tartozó magassága két hasonló háromszögre bontja a háromszöget, melyek mindegyike hasonló az eredeti háromszöghöz is.
+Egy derékszögű háromszög átfogóhoz tartozó magassága két hasonló háromszögre bontja a háromszöget, melyek mindegyike hasonló az eredeti háromszöghöz is. ($180 degree - 90 degree - alpha = beta$)
 
 
 #pagebreak()
@@ -102,6 +109,7 @@ Euklideszi szerkesztésnek hívunk mindent, amit gimiben tanultatok szerkesztés
 
 #cetz.canvas({
   import cetz.draw: *
+  import cetz.decorations: *
   
   set-style(stroke-width: 1pt)
 
@@ -124,6 +132,7 @@ Euklideszi szerkesztésnek hívunk mindent, amit gimiben tanultatok szerkesztés
   circle((3.4, 3.4), radius: 0.07, name: "Q", fill: black)
   line((2.5, 3), (3.4, 3.4))
   content((-0.2,3.8), "C", $ 2. $)
+  brace("P", "Q")
 
   //separator
   line((3.8, 4), (3.8, 2))
@@ -156,6 +165,7 @@ Euklideszi szerkesztésnek hívunk mindent, amit gimiben tanultatok szerkesztés
   circle((15.2, 2.3), radius: 0.07, name: "V", fill: black)
   line("U", "V", stroke: (dash: "dashed"))
   content((17.9,3.8), "E", $ 6. $)
+  brace("U", "V")
   
 })
 
