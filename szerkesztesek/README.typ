@@ -6,6 +6,94 @@
   x: 1.5cm,
 ))
 
+== Ismétlés <ismétlés>
+=== Thálesz-tétel
+A Thálesz-tétel kimondja, hogy ha egy $C$ pont a kör ívén van (de nem az átmérőn), akkor az átmérő $C$-ből derékszög alatt látszik. A Thálesz-tétel megfordítása pedig azt mondja ki, hogy ha egy háromszög derékszögű, akkor három csúcsa olyan körön van, melynek átmérője az átfogó.
+
+#cetz.canvas({
+  import cetz.draw: *
+  
+  set-style(stroke-width: 1pt)
+
+  circle((0, 0), radius: 3, name: "k")
+  circle((0, 0), radius: 0.07, fill: black, name: "O")
+  content("O", $ O $, anchor: "north-east", padding: .1)
+  circle((3, 0), radius: 0.07, fill: black, name: "B")
+  content("B", $ B $, anchor: "north-east", padding: .1)
+  circle((-3, 0), radius: 0.07, fill: black, name: "A")
+  content("A", $ A $, anchor: "north-west", padding: .1)
+  circle((1.5, 2.598), radius: 0.07, fill: black, name: "C")
+  content("C", $ C $, anchor: "south-west", padding: .1)
+  line("A", "B")
+  line("A", "C")
+  line("B", "C")
+  //right angle mark
+  arc((1.14, 2.4), start: 210deg, delta: 90deg, radius: 0.4,
+    mode: "PIE",fill: color.mix((gray, 80%), white))
+})
+
+=== Hasonló háromszögek
+Két háromszög egymáshoz hasonló ($A B C triangle.stroked.t tilde A' B' C' triangle.stroked.t$), ha bármelyik teljesül az alábbiakból:
+
+- két szögük egyenlő (tehát ezáltal a harmadik is).
+
+- két oldal aránya és a nagyobbikkal szemközti szögük egyenlő.
+
+- két oldal aránya és az általuk bezárt szögeik egyenlők.
+
+- három oldal aránya páronként egyenlő.
+
+Ezek az állítások egymásból következnek, tehát minden hasonló háromszög párra igaz, hogy: $ frac(A B, A' B') = frac(B C, B' C') = frac(C A, C' A') $
+
+#cetz.canvas({
+  import cetz.draw: *
+  
+  set-style(stroke-width: 1pt)
+  //right triangle
+  circle((0, 0), radius: 0.07, fill: black, name: "A")
+  circle((6, 0), radius: 0.07, fill: black, name: "B")
+  circle((0, 8), radius: 0.07, fill: black, name: "C")
+  content("A", $ A $, anchor: "north-east", padding: .1)
+  content("B", $ B $, anchor: "north-west", padding: .1)
+  content("C", $ C $, anchor: "south-east", padding: .1)
+  line("A", "B")
+  line("A", "C")
+  line("B", "C")
+  //right angle mark
+  arc((0.4, 0), start: 0deg, delta: 90deg, radius: 0.4,
+    mode: "PIE",fill: color.mix((gray, 80%), white))
+
+  //height of the a side from A
+  
+  
+  //right angle mark
+  arc((3.63, 3.18), start: 125deg, delta: 180deg, radius: 0.4,
+    mode: "PIE",fill: color.mix((gray, 80%), white))
+    circle((3.84, 2.88), radius: 0.07, fill: black, name: "D")
+  line((0,0), "D", stroke: (dash: "dashed"))
+
+  //similar triangle
+  circle((8, 0), radius: 0.07, fill: black, name: "A'")
+  circle((14, 0), radius: 0.07, fill: black, name: "B'")
+  circle((8, 4), radius: 0.07, fill: black, name: "C'")
+  content("A'", $ A' $, anchor: "north-east", padding: .1)
+  content("B'", $ B' $, anchor: "north-west", padding: .1)
+  content("C'", $ C' $, anchor: "south-east", padding: .1)
+  line("A'", "B'")
+  line("A'", "C'")
+  line("B'", "C'")
+  //right angle mark
+  arc((8.4, 0), start: 0deg, delta: 90deg, radius: 0.4,
+    mode: "PIE",fill: color.mix((gray, 80%), white))
+
+  
+})
+
+Egy derékszögű háromszög átfogóhoz tartozó magassága két hasonló háromszögre bontja a háromszöget, melyek mindegyike hasonló az eredeti háromszöghöz is.
+
+
+#pagebreak()
+
 == Mohr-Mascheroni szerkesztések <mohr-mascheroni-szerkesztések>
 
 Euklideszi szerkesztésnek hívunk mindent, amit gimiben tanultatok szerkesztés néven. A használható lépések:
@@ -60,6 +148,14 @@ Euklideszi szerkesztésnek hívunk mindent, amit gimiben tanultatok szerkesztés
   circle((13.5, 3), radius: 1, name: "F")
   circle((13, 3.866), radius: 0.07, name: "T", fill: black)
   content((9.7,3.8), "E", $ 5. $)
+
+  //separator
+  line((14.7, 4), (14.7, 2))
+  //distance transfer
+  circle((16, 3.5), radius: 0.07, name: "U", fill: black)
+  circle((15.2, 2.3), radius: 0.07, name: "V", fill: black)
+  line("U", "V", stroke: (dash: "dashed"))
+  content((17.9,3.8), "E", $ 6. $)
   
 })
 
@@ -300,7 +396,9 @@ Invertáljunk két pontot: egy tetszőlegesen választott $P$ pontot, illetve $T
 
 A Thálesz tétel kimondja, hogy ha egy $C$ pont a kör ívén van (de nem az átmérőn), akkor az átmérő $C$-ből derékszög alatt látszik. Itt ennek a megfordítását fogjuk felhasználni, tehát ha az átmérő egy $C$ pontból derékszögben látszik, akkor $C$ a köríven van (de nem az átmérőn).
 
-Eddig a következőket tudjuk az egyenesek inverz képéről: - póluson átmenő egyenes inverze önmaga - póluson át-nem-menő egyenes képe egy póluson átmenő kör
+Eddig a következőket tudjuk az egyenesek inverz képéről: 
+- póluson átmenő egyenes inverze önmaga 
+- póluson át-nem-menő egyenes képe egy póluson átmenő kör
 
 Tehát, nem igaz az, hogy ez a transzformáció egyenestartó lenne, de az sem, hogy az egyenesből mindig kör lesz. Vagy kör lesz vagy egyenes, fazekasos terminológiával ez egy kögyenes (angolul cline/circline). Bár ezt még nem néztük meg a körök képeire, de az inverzió kögyenestartó.
 
